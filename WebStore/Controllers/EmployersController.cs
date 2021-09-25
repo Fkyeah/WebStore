@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -39,14 +40,37 @@ namespace WebStore.Controllers
         {
             return View();
         }
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
-            return View();
+            var employer = _employersData.GetById(id);
+            if (employer is null)
+                return NotFound();
+
+            var model = new EmployerViewModel
+            {
+                Id = employer.Id,
+                Name = employer.Name,
+                LastName = employer.LastName,
+                Patronymic = employer.Patronymic,
+                Age = employer.Age,
+            };
+
+            return View(model);
         }
         [HttpPost]
-        public IActionResult Edit()
+        public IActionResult Edit(EmployerViewModel model)
         {
-            return View();
+            var employer = new Employer
+            {
+                Id = model.Id,
+                Name = model.Name,
+                LastName = model.LastName,
+                Patronymic = model.Patronymic,
+                Age = model.Age,
+            };
+            _employersData.UpdateEmployer(employer);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

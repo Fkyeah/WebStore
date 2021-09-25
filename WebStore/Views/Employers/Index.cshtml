@@ -22,7 +22,15 @@
                 <td>@item.LastName</td>
                 <td>@item.Patronymic</td>
                 <td>@item.Age</td>
-                <td><a asp-action="Details" asp-route-id="@item.Id">Детали</a></td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <i class="fa fa-info"></i>
+                    </a>
+                    |
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        Edit
+                    </a>
+                </td>
             </tr>
         }
     </table>
