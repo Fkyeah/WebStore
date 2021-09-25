@@ -23,6 +23,9 @@ namespace WebStore.Controllers
         {
             return View(_employersData.GetAllEmployers());
         }
+
+        #region Details
+        
         [Route("~/Staff/info-{id}")]
         public IActionResult Details(int id)
         {
@@ -32,10 +35,18 @@ namespace WebStore.Controllers
             return View(employer);
         }
 
+        #endregion
+
+        #region Create
+
         public IActionResult Create()
         {
-            return View();
+            return View("Edit", new EmployerViewModel());
         }
+
+        #endregion
+
+        #region Delete
         public IActionResult Delete(int id)
         {
             if (id < 0)
@@ -61,9 +72,17 @@ namespace WebStore.Controllers
             _employersData.DeleteEmployer(id);
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Edit(int id)
+
+        #endregion
+
+        #region Edit
+
+        public IActionResult Edit(int? id)
         {
-            var employer = _employersData.GetById(id);
+            if (id is null)
+                return View(new EmployerViewModel());
+
+            var employer = _employersData.GetById((int)id);
             if (employer is null)
                 return NotFound();
 
@@ -89,9 +108,14 @@ namespace WebStore.Controllers
                 Patronymic = model.Patronymic,
                 Age = model.Age,
             };
-            _employersData.UpdateEmployer(employer);
+            if (employer.Id == 0)
+                _employersData.AddEmployer(employer);
+            else
+                _employersData.UpdateEmployer(employer);
 
             return RedirectToAction(nameof(Index));
         }
+
+        #endregion
     }
 }
