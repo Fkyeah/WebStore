@@ -22,5 +22,8 @@
             <td>@Model.Age</td>
         </tr>
     </table>
+    <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
     <a asp-controller="Employers" asp-action="Index" class="btn btn-default">Назад</a>
 </div>

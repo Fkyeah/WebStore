@@ -36,9 +36,30 @@ namespace WebStore.Controllers
         {
             return View();
         }
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            return View();
+            if (id < 0)
+                return BadRequest();
+
+            var employer = _employersData.GetById(id);
+            if (employer is null)
+                return NotFound();
+
+            return View(new EmployerViewModel
+            {
+                Id = employer.Id,
+                Name = employer.Name,
+                LastName = employer.LastName,
+                Patronymic = employer.Patronymic,
+                Age = employer.Age,
+            });
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _employersData.DeleteEmployer(id);
+            return RedirectToAction(nameof(Index));
         }
         public IActionResult Edit(int id)
         {

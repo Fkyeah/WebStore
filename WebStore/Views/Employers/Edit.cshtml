@@ -42,6 +42,9 @@
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
             </form>
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </form>
         </div>
     </div>
     <div>
