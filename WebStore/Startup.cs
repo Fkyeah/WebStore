@@ -24,7 +24,7 @@ namespace WebStore
             }
             app.UseStaticFiles();
             app.UseRouting();
-            var greeting = Configuration["Greeting"];
+            var greeting = "Greeting";
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/hello", async context =>

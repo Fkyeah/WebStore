@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Check Out";
+}
+
+<section id="cart_items">
+    <div class="container">
+        <partial name="Partial/_BreadCrums" />
+
+        <div class="step-one">
+            <h2 class="heading">Step1</h2>
+        </div>
+        <partial name="Partial/_CheckOutOptions" />
+
+        <div class="register-req">
+            <p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
+        </div><!--/register-req-->
+
+        <partial name="Partial/_ShopperInfo" />
+        <div class="review-payment">
+            <h2>Review & Payment</h2>
+        </div>
+        <partial name="Partial/_Table" />
+
+        <partial name="Partial/_PaymentOptions" />
+    </div>
+</section> <!--/#cart_items-->

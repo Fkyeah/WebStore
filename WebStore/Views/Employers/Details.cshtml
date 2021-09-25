@@ -1,0 +1,26 @@
+﻿@model Employer
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div class="container">
+    <h1>Сотрудник c ID = @Model.Id</h1>
+    <table class="table">
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>LastName</td>
+            <td>Patronymic</td>
+            <td>Age</td>
+        </tr>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.Name</td>
+            <td>@Model.LastName</td>
+            <td>@Model.Patronymic</td>
+            <td>@Model.Age</td>
+        </tr>
+    </table>
+    <a asp-controller="Employers" asp-action="Index" class="btn btn-default">Назад</a>
+</div>
