@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WebStore.Model;
 
 namespace WebStore.Services.Interfaces
@@ -9,9 +6,9 @@ namespace WebStore.Services.Interfaces
     interface IEmployersData
     {
         IEnumerable<Employer> GetAllEmployers();
-        Employer GetById();
+        Employer GetById(int id);
         int AddEmployer(Employer employer);
-        void UpdateEmployer(int id, Employer employer);
+        void UpdateEmployer(Employer employer);
         bool DeleteEmployer(int id);
     }
 }
