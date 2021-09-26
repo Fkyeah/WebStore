@@ -100,20 +100,25 @@ namespace WebStore.Controllers
         [HttpPost]
         public IActionResult Edit(EmployerViewModel model)
         {
-            var employer = new Employer
+            if (ModelState.IsValid)
             {
-                Id = model.Id,
-                Name = model.Name,
-                LastName = model.LastName,
-                Patronymic = model.Patronymic,
-                Age = model.Age,
-            };
-            if (employer.Id == 0)
-                _employersData.AddEmployer(employer);
-            else
-                _employersData.UpdateEmployer(employer);
+                var employer = new Employer
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                    LastName = model.LastName,
+                    Patronymic = model.Patronymic,
+                    Age = model.Age,
+                };
+                if (employer.Id == 0)
+                    _employersData.AddEmployer(employer);
+                else
+                    _employersData.UpdateEmployer(employer);
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            else
+                return View();
         }
 
         #endregion
