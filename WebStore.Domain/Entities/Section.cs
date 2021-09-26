@@ -3,8 +3,9 @@ using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities
 {
-    class Section : NamedEntity, IOrderedEntity
+    public class Section : NamedEntity, IOrderedEntity
     {
         public int Order { get; set; }
+        public int? ParentId { get; set; }
     }
 }
