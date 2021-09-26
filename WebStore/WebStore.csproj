@@ -29,4 +29,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Shop\Partial\" />
+  </ItemGroup>
+
 </Project>
