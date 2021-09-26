@@ -7,5 +7,6 @@ namespace WebStore.Services.Interfaces
     {
         IEnumerable<Section> GetSections();
         IEnumerable<Brand> GetBrands();
+        IEnumerable<Product> GetProducts();
     }
 }
