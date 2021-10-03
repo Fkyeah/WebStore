@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
-using WebStore.ViewModels.Users;
+using WebStore.ViewModels.Identity;
 
 namespace WebStore.Controllers
 {
@@ -19,8 +19,36 @@ namespace WebStore.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public IActionResult Login() => View();
-        public IActionResult Logout() => View();
+
+        #region Login
+        public IActionResult Login(string returnUrl) => View( new LoginViewModel { ReturnUrl = returnUrl });
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var resultLogin = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            if (resultLogin.Succeeded)
+            {
+                //if (Url.IsLocalUrl(model.ReturnUrl))
+                //    return Redirect(model.ReturnUrl);
+                //else
+                //    return RedirectToAction("Index", "Home");
+                return LocalRedirect(model.ReturnUrl ?? "/");
+            }
+
+            ModelState.AddModelError("", "Введены неверные данные");
+            return View(model);
+        }
+        #endregion
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
         public IActionResult AccessDenied() => View();
 
         #region Register

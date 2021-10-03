@@ -58,9 +58,11 @@ namespace WebStore
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.Cookie.Name = "GB.WebStore";
                 options.Cookie.HttpOnly = true;
+
                 options.ExpireTimeSpan = TimeSpan.FromDays(20);
-                
+
 
                 options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
