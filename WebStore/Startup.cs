@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.DAL.Context;
 using WebStore.Infrastructure.Convensions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
@@ -12,8 +15,16 @@ namespace WebStore
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<WebStoreDB>(opt => 
+                opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
             services.AddSingleton<IEmployersData, InMemoryEmployersData>();
             services.AddSingleton<IProductData, InMemoryProductData>();
             //services.AddScoped<IEmployersData, InMemoryEmployersData>();
