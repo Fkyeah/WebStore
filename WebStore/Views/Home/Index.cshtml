@@ -1,4 +1,20 @@
-﻿@{
+﻿@inject IProductData ProductData
+
+@{ 
+    var products = ProductData
+        .GetProducts()
+        .Take(6)
+        .Select(el => new ProductViewModel
+        {
+            Id = el.Id,
+            Name = el.Name,
+            Price = el.Price,
+            ImageUrl = el.ImageUrl,
+            Order = el.Order
+        }).OrderBy(p => p.Order);
+}
+
+@{
     ViewBag.Title = "Home";
 }
 
@@ -17,17 +33,11 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <partial name="~/Views/Shared/Partial/_Categories.cshtml" />
-                    <partial name="~/Views/Shared/Partial/_Brands.cshtml" />
-                    <partial name="~/Views/Shared/Partial/_PriceRange.cshtml" />
-                    <partial name="~/Views/Shared/Partial/_Shipping.cshtml" />
-                </div>
+                <partial name="~/Views/Shared/Partial/_LeftSideBar.cshtml"/>
             </div>
 
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturesItems" />
+                <partial name="~/Views/Shared/Partial/_FeaturesItems.cshtml" model="products"/>
                 <partial name="Partial/_CategoryTab" />
                 <partial name="Partial/_RecommendedItems" />
             </div>

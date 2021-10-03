@@ -15,6 +15,7 @@ namespace WebStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IEmployersData, InMemoryEmployersData>();
+            services.AddSingleton<IProductData, InMemoryProductData>();
             //services.AddScoped<IEmployersData, InMemoryEmployersData>();
             //services.AddTransient<IEmployersData, InMemoryEmployersData>();
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestConvention()))
