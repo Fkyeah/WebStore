@@ -43,21 +43,26 @@ namespace WebStore
 
             services.Configure<IdentityOptions>(options =>
             {
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
+                options.User.RequireUniqueEmail = false;
 
                 options.Lockout.AllowedForNewUsers = false;
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
 
-                options.User.RequireUniqueEmail = true;
             });
 
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromDays(20);
+                options.ExpireTimeSpan = TimeSpan.FromDays(20);
+                
 
-                options.LoginPath = "Account/Login";
+                options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
