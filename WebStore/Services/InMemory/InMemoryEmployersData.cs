@@ -5,7 +5,7 @@ using System.Linq;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
 
-namespace WebStore.Services
+namespace WebStore.Services.InMemory
 {
     public class InMemoryEmployersData : IEmployersData
     {
@@ -20,7 +20,7 @@ namespace WebStore.Services
         {
             if (employer is null)
                 throw new ArgumentNullException(nameof(employer));
-                
+
             if (TestData.EmployerList.Contains(employer))
                 return employer.Id;
 
@@ -35,7 +35,7 @@ namespace WebStore.Services
             var employer = GetById(id);
             if (employer is null)
                 return false;
-            
+
             TestData.EmployerList.Remove(employer);
             return true;
         }
@@ -66,12 +66,12 @@ namespace WebStore.Services
             var temp_employer = GetById(employer.Id);
             if (temp_employer is null)
                 return;
-            
+
             temp_employer.Name = employer.Name;
             temp_employer.LastName = employer.LastName;
             temp_employer.Patronymic = employer.Patronymic;
             temp_employer.Age = employer.Age;
-            
+
         }
     }
 }
