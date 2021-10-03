@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using WebStore.DAL.Context;
 using WebStore.Infrastructure.Convensions;
 using WebStore.Infrastructure.Middleware;
+using WebStore.Model;
 using WebStore.Services;
 using WebStore.Services.Interfaces;
 
@@ -25,10 +26,10 @@ namespace WebStore
         {
             services.AddDbContext<WebStoreDB>(opt => 
                 opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+            services.AddTransient<WebStoreDBInitializer>();
             services.AddSingleton<IEmployersData, InMemoryEmployersData>();
             services.AddSingleton<IProductData, InMemoryProductData>();
             //services.AddScoped<IEmployersData, InMemoryEmployersData>();
-            //services.AddTransient<IEmployersData, InMemoryEmployersData>();
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestConvention()))
                 .AddRazorRuntimeCompilation();
         }
