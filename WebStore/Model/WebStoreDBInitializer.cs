@@ -26,13 +26,17 @@ namespace WebStore.Model
                 _logger.LogInformation("Запуск миграций..");
                 await _db.Database.MigrateAsync();
             }
-                
 
-            await InitializeProductAsync();
             _logger.LogInformation("Инициализация продуктов..");
+            await InitializeProductAsync();
         }
         private async Task InitializeProductAsync()
         {
+            if(_db.Brands.Any())
+            {
+                _logger.LogInformation("Инициализация не требуется и уже была произведена ранее");
+                return;
+            }
             _logger.LogInformation("Добавление брендов..");
             await using(await _db.Database.BeginTransactionAsync())
             {

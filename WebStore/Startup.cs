@@ -10,6 +10,7 @@ using WebStore.Infrastructure.Convensions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Model;
 using WebStore.Services.InMemory;
+using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 
 namespace WebStore
@@ -28,7 +29,8 @@ namespace WebStore
                 opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
             services.AddTransient<WebStoreDBInitializer>();
             services.AddSingleton<IEmployersData, InMemoryEmployersData>();
-            services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IProductData, SqlProductData>();
+            //services.AddSingleton<IProductData, InMemoryProductData>();
             //services.AddScoped<IEmployersData, InMemoryEmployersData>();
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestConvention()))
                 .AddRazorRuntimeCompilation();
