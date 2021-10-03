@@ -5,7 +5,7 @@ using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities
 {
-    [Table("Products")]
+    [Table("Sections")]
     public class Section : NamedEntity, IOrderedEntity
     {
         [Column("Section_order_id")]
