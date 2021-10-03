@@ -2,7 +2,7 @@
 
 namespace WebStore.Domain.Entities
 {
-    class User : IdentityUser
+    public class User : IdentityUser
     {
     }
 }
