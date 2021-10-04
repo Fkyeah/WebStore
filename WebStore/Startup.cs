@@ -82,7 +82,8 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-            
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseMiddleware<TestMiddleware>();
