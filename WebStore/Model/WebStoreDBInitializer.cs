@@ -124,6 +124,8 @@ namespace WebStore.Model
                 if(creationResult.Succeeded)
                 {
                     _logger.LogInformation("Пользователь {0} успешно создан", User.Administrator);
+                    await _userManager.AddToRoleAsync(admin, Role.Administrators);
+                    _logger.LogInformation("Роль выдана администратору");
                 }
                 else
                 {
