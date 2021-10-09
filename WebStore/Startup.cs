@@ -85,8 +85,8 @@ namespace WebStore
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMiddleware<TestMiddleware>();
             
