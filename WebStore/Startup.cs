@@ -37,7 +37,7 @@ namespace WebStore
             
             services.AddScoped<IProductData, SqlProductData>();
             
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreDB>()
                 .AddDefaultTokenProviders();
 
