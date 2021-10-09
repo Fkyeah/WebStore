@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebStore.Infrastructure.Mapping;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -15,15 +15,7 @@ namespace WebStore.Controllers
         public IActionResult Index(int id)
         {
             var product = _products.GetProductById(id);
-            return View(new ProductViewModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                ImageUrl = product.ImageUrl,
-                Brand = product.Brand?.Name,
-                Section = product.Section.Name,
-            });
+            return View(product.ToView());
         }
     }
 }

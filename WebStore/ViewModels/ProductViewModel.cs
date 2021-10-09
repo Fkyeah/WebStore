@@ -1,5 +1,4 @@
-﻿using WebStore.Domain.Entities;
-using WebStore.Domain.Entities.Base;
+﻿using WebStore.Domain.Entities.Base;
 using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.ViewModels
