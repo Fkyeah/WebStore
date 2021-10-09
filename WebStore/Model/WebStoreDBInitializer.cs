@@ -110,6 +110,33 @@ namespace WebStore.Model
             }
             await CheckRole(Role.Administrators);
             await CheckRole(Role.Users);
+
+            if (await _userManager.FindByNameAsync(User.Administrator) is null)
+            {
+                _logger.LogInformation("Пользователя {0} не существует!", User.Administrator);
+                _logger.LogInformation("Создаем..");
+                var admin = new User
+                { 
+                    UserName = User.Administrator,
+                };
+                
+                var creationResult = await _userManager.CreateAsync(admin, User.DefaultAdminPassword);
+                if(creationResult.Succeeded)
+                {
+                    _logger.LogInformation("Пользователь {0} успешно создан", User.Administrator);
+                }
+                else
+                {
+                    _logger.LogError("Ошибка при создании пользователя {0}. Ошибки {1}", User.Administrator, string.Join(", ", creationResult.Errors));
+                    throw new InvalidOperationException($"Ошибка при создании пользователя {User.Administrator}. Ошибки {string.Join(", ", creationResult.Errors)}");
+                }
+                _logger.LogInformation("Данные Identity успешно добавлены в БД");
+            }
+            else
+            {
+                _logger.LogInformation("Данные администратора уже были добавлены в БД ранее");
+            }
+            
         }
     }
 }

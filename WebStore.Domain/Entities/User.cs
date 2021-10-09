@@ -4,6 +4,8 @@ namespace WebStore.Domain.Entities
 {
     public class User : IdentityUser
     {
-        public override string UserName { get; set; }
+        public const string Administrator = "Administrator";
+        public const string DefaultAdminPassword = "Admin_123";
+
     }
 }
