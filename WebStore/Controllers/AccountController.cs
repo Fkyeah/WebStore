@@ -10,6 +10,7 @@ using WebStore.ViewModels.Identity;
 
 namespace WebStore.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
