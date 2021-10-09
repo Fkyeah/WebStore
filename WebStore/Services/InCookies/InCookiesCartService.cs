@@ -8,7 +8,7 @@ using WebStore.ViewModels;
 
 namespace WebStore.Services.InCookies
 {
-    public class CartService : ICartService
+    public class InCookiesCartService : ICartService
     {
         private readonly HttpContextAccessor _httpContextAccessor;
         private readonly IProductData _productData;
@@ -48,7 +48,7 @@ namespace WebStore.Services.InCookies
             cookies.Delete(_cartName);
             cookies.Append(_cartName, cart);
         }
-        public CartService(HttpContextAccessor httpContextAccessor, IProductData productData)
+        public InCookiesCartService(HttpContextAccessor httpContextAccessor, IProductData productData)
         {
             _httpContextAccessor = httpContextAccessor;
             _productData = productData;
