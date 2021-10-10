@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebStore.Domain.Entities.Base;
 
 namespace WebStore.Domain.Entities.Orders
@@ -25,7 +22,7 @@ namespace WebStore.Domain.Entities.Orders
         public string Description { get; set; }
         
         public DateTimeOffset Date { get; set; } = DateTimeOffset.UtcNow;
-        
+        [Required]
         public IEnumerable<OrderItem> Items { get; set; } = new List<OrderItem>();
     }
     public class OrderItem : BaseEntity
@@ -40,7 +37,7 @@ namespace WebStore.Domain.Entities.Orders
         
         [NotMapped]
         public decimal TotalPrice => Price * Quantity;
-        
+        [Required]
         public int Quantity { get; set; }
     }
 }
