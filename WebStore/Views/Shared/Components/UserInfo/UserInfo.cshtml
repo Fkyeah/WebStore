@@ -3,7 +3,7 @@
     <ul class="nav navbar-nav">
         @if(User.IsInRole(Role.Administrators))
         {
-            <li><a href="#"><i class="fa fa-keyboard-o"></i> Admin Panel</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-keyboard-o"></i> Admin Panel</a></li>
         }
         <li><a href="#"><i class="fa fa-user"></i> @User.Identity!.Name</a></li>
         <li><a href="#"><i class="fa fa-shopping-cart"></i> Shopping Cart</a></li>
