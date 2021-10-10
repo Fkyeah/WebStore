@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WebStore.Domain.Entities;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
-    [Route("Staff/[action]/{id?}")]
+    //[Route("Staff/[action]/{id?}")]
+    [Authorize (Roles = Role.Administrators)]
     public class EmployersController : Controller
     {
         private readonly IEmployersData _employersData;
@@ -17,6 +20,8 @@ namespace WebStore.Controllers
             _employersData = employersData;
             _logger = logger;
         }
+
+        
         public IActionResult Index()
         {
             return View(_employersData.GetAllEmployers());
@@ -24,7 +29,7 @@ namespace WebStore.Controllers
 
         #region Details
         
-        [Route("~/Staff/info-{id}")]
+        //[Route("~/Staff/info-{id}")]
         public IActionResult Details(int id)
         {
             var employer = _employersData.GetById(id);

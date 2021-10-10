@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebStore.Infrastructure.Mapping;
+using WebStore.Services.Interfaces;
 
 namespace WebStore.Controllers
 {
     public class ProductDetailsController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductData _products;
+
+        public ProductDetailsController(IProductData products)
         {
-            return View();
+            _products = products;
+        }
+        public IActionResult Index(int id)
+        {
+            var product = _products.GetProductById(id);
+            return View(product.ToView());
         }
     }
 }

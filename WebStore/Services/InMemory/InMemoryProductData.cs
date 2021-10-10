@@ -28,5 +28,20 @@ namespace WebStore.Services.InMemory
                 products = products.Where(el => el.BrandId == filter.BrandId);
             return products;
         }
+
+        public Section GetSectionById(int id)
+        {
+            return TestData.Sections.FirstOrDefault(s => s.Id == id);
+        }
+
+        public Brand GetBrandById(int id)
+        {
+            return TestData.Brands.FirstOrDefault(b => b.Id == id);
+        }
+
+        public Product GetProductById(int id)
+        {
+            return TestData.Products.FirstOrDefault(p => p.Id == id);
+        }
     }
 }

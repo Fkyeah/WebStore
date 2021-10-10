@@ -4,49 +4,52 @@
 }
 
 
-<div class="container">
-    <h1>Сотрудники</h1>
-    <p>
-        <a asp-action="Create" class="btn btn-default">Создать нового сотрудника</a>
-    </p>
-    @if (Model.Any())
-    {
-        <table class="table">
-            <tr>
-                <td>Id</td>
-                <td>Name</td>
-                <td>LastName</td>
-                <td>Patronymic</td>
-                <td>Age</td>
-                <td>Details</td>
-            </tr>
-            @foreach (var item in Model)
-            {
+@if (User.IsInRole(Role.Administrators))
+{
+    <div class="container">
+        <h1>Сотрудники</h1>
+        <p>
+            <a asp-action="Create" class="btn btn-default">Создать нового сотрудника</a>
+        </p>
+        @if (Model.Any())
+        {
+            <table class="table">
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <td>@item.LastName</td>
-                    <td>@item.Patronymic</td>
-                    <td>@item.Age</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">
-                            <i class="fa fa-info"></i>
-                        </a>
-                        |
-                        <a asp-action="Edit" asp-route-id="@item.Id">
-                            Edit
-                        </a>
-                        |
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">
-                            Delete
-                        </a>
-                    </td>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>LastName</td>
+                    <td>Patronymic</td>
+                    <td>Age</td>
+                    <td>Details</td>
                 </tr>
-            }
-        </table>
-    }
-    else
-    {
-        <p>Сотрудников нет!</p>
-    }
-</div>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Patronymic</td>
+                        <td>@item.Age</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">
+                                <i class="fa fa-info"></i>
+                            </a>
+                            |
+                            <a asp-action="Edit" asp-route-id="@item.Id">
+                                Edit
+                            </a>
+                            |
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p>Сотрудников нет!</p>
+        }
+    </div>
+}

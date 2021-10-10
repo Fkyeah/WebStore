@@ -12,6 +12,7 @@ using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Convensions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Model;
+using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
@@ -36,8 +37,9 @@ namespace WebStore
             services.AddSingleton<IEmployersData, InMemoryEmployersData>();
             
             services.AddScoped<IProductData, SqlProductData>();
-            
-            services.AddIdentity<User, IdentityRole>()
+            services.AddScoped<ICartService, InCookiesCartService>();
+
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreDB>()
                 .AddDefaultTokenProviders();
 
@@ -85,8 +87,8 @@ namespace WebStore
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMiddleware<TestMiddleware>();
             

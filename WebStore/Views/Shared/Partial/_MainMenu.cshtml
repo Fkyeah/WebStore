@@ -5,7 +5,6 @@
             <a href="#">Shop<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
                 <li><a asp-controller="Shop" asp-action="Index">Products</a></li>
-                <li><a asp-controller="ProductDetails" asp-action="Index">Product Details</a></li>
                 <li><a asp-controller="CheckOut" asp-action="Index">Checkout</a></li>
                 <li><a asp-controller="Cart" asp-action="Index">Cart</a></li>
                 <li><a asp-controller="Login" asp-action="Index">Login</a></li>
@@ -20,6 +19,9 @@
         </li>
         <li><a asp-controller="NotFound" asp-action="Index">404</a></li>
         <li><a asp-controller="ContactUs" asp-action="Index">Contact</a></li>
-        <li><a asp-controller="Employers" asp-action="Index">Employers</a></li>
+        @if (User.IsInRole(Role.Administrators))
+        {
+            <li><a asp-controller="Employers" asp-action="Index">Employers</a></li>
+        }
     </ul>
 </div>
