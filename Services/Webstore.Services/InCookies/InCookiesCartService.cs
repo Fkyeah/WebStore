@@ -4,8 +4,8 @@ using System.Linq;
 using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
-using WebStore.Infrastructure.Mapping;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Services.InCookies
 {
@@ -93,7 +93,7 @@ namespace WebStore.Services.InCookies
             var cart = Cart;
 
             var item = cart.Items.FirstOrDefault(i => i.ProductId == id);
-            
+
             if (item is null)
                 return;
             if (item.Quantity > 0)
