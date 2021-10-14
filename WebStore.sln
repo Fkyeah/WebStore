@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sevices", "Sevices", "{33068D69-47E0-4E9C-BF15-749408949CBC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{33068D69-47E0-4E9C-BF15-749408949CBC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{A14BCEAC-34CF-4AFB-8BF2-D00F02C7D974}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.DAL", "Data\WebStore.DAL\WebStore.DAL.csproj", "{71D7C9A0-77A1-456E-9538-71FB4517DF73}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.DAL.Sqlite", "Data\WebStore.DAL.Sqlite\WebStore.DAL.Sqlite.csproj", "{A7FB2104-EE4A-4128-AA81-0B9DECED7CAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Interfaces", "Services\WebStore.Interfaces\WebStore.Interfaces.csproj", "{77409E89-A151-4213-B2A2-AE209DC6F4EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Services", "Services\Webstore.Services\WebStore.Services.csproj", "{19F1962B-799D-454A-82AA-F94751D582AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,14 @@ Global
 		{A7FB2104-EE4A-4128-AA81-0B9DECED7CAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7FB2104-EE4A-4128-AA81-0B9DECED7CAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7FB2104-EE4A-4128-AA81-0B9DECED7CAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77409E89-A151-4213-B2A2-AE209DC6F4EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77409E89-A151-4213-B2A2-AE209DC6F4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77409E89-A151-4213-B2A2-AE209DC6F4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77409E89-A151-4213-B2A2-AE209DC6F4EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F1962B-799D-454A-82AA-F94751D582AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F1962B-799D-454A-82AA-F94751D582AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F1962B-799D-454A-82AA-F94751D582AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F1962B-799D-454A-82AA-F94751D582AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +62,8 @@ Global
 		{1E48C3A0-387E-47A6-9E9F-753F31B8AB57} = {A14BCEAC-34CF-4AFB-8BF2-D00F02C7D974}
 		{71D7C9A0-77A1-456E-9538-71FB4517DF73} = {0ABCACEE-3352-4894-80F5-03C0759B4F61}
 		{A7FB2104-EE4A-4128-AA81-0B9DECED7CAB} = {0ABCACEE-3352-4894-80F5-03C0759B4F61}
+		{77409E89-A151-4213-B2A2-AE209DC6F4EA} = {33068D69-47E0-4E9C-BF15-749408949CBC}
+		{19F1962B-799D-454A-82AA-F94751D582AA} = {33068D69-47E0-4E9C-BF15-749408949CBC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {87BA004C-0661-4D1A-8F17-76F97515FEA0}
