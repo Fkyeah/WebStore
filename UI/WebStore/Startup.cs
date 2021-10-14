@@ -12,10 +12,10 @@ using WebStore.Data;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Convensions;
 using WebStore.Infrastructure.Middleware;
+using WebStore.Interfaces.Services;
 using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
-using WebStore.Services.Interfaces;
 
 namespace WebStore
 {
