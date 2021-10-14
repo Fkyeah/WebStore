@@ -12,7 +12,7 @@ namespace WebStore.WebAPI.Clients.Values
 {
     public class ValuesClient : BaseClient, IValueClient
     {
-        public ValuesClient(HttpClient httpClient) : base(httpClient, "api/values")
+        public ValuesClient(HttpClient httpClient) : base(httpClient, "api/Values")
         {
 
         }
@@ -50,7 +50,7 @@ namespace WebStore.WebAPI.Clients.Values
 
             if (response.IsSuccessStatusCode)
                 return response.Content.ReadFromJsonAsync<IEnumerable<string>>().Result;
-            
+
             return Enumerable.Empty<string>();
         }
 

@@ -17,7 +17,7 @@ namespace WebStore.WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll() => Ok(_values);
+        public IActionResult GetAll() => Ok(_values.Values);
 
 
         [HttpGet]
