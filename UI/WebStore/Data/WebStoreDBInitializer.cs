@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 
-namespace WebStore.Model
+namespace WebStore.Data
 {
     public class WebStoreDBInitializer
     {
@@ -120,7 +120,7 @@ namespace WebStore.Model
                     await _roleManager.CreateAsync(new Role { Name = roleName });
                     _logger.LogInformation("Роль успешно создана: {0}", roleName);
                 }
-                              
+
             }
             await CheckRole(Role.Administrators);
             await CheckRole(Role.Users);
@@ -130,12 +130,12 @@ namespace WebStore.Model
                 _logger.LogInformation("Пользователя {0} не существует!", User.Administrator);
                 _logger.LogInformation("Создаем..");
                 var admin = new User
-                { 
+                {
                     UserName = User.Administrator,
                 };
-                
+
                 var creationResult = await _userManager.CreateAsync(admin, User.DefaultAdminPassword);
-                if(creationResult.Succeeded)
+                if (creationResult.Succeeded)
                 {
                     _logger.LogInformation("Пользователь {0} успешно создан", User.Administrator);
                     await _userManager.AddToRoleAsync(admin, Role.Administrators);
@@ -152,7 +152,7 @@ namespace WebStore.Model
             {
                 _logger.LogInformation("Данные администратора уже были добавлены в БД ранее");
             }
-            
+
         }
     }
 }
