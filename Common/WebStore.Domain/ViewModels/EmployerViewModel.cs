@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStore.ViewModels
+namespace WebStore.Domain.ViewModels
 {
     [Display(Name = "Сотрудники")]
     public class EmployerViewModel
@@ -25,7 +25,7 @@ namespace WebStore.ViewModels
 
         [Display(Name = "Возраст")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Возраст обязателен")]
-        [Range(minimum: 18, maximum:75, ErrorMessage = "Возраст должен быть от 18 до 75")]
+        [Range(minimum: 18, maximum: 75, ErrorMessage = "Возраст должен быть от 18 до 75")]
         public int Age { get; set; }
     }
 }

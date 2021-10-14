@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Model;
 
-namespace WebStore.Model
+namespace WebStore.Data
 {
     public class TestData
     {

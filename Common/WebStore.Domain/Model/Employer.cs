@@ -1,4 +1,4 @@
-﻿namespace WebStore.Model
+﻿namespace WebStore.Domain.Model
 {
     public class Employer
     {
