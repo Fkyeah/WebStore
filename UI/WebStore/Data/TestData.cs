@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using WebStore.Domain.Entities;
-using WebStore.Model;
+using WebStore.Domain.Model;
 
 namespace WebStore.Data
 {

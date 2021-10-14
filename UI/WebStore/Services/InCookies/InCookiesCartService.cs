@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Linq;
+using WebStore.Domain;
 using WebStore.Domain.Entities;
+using WebStore.Domain.ViewModels;
 using WebStore.Infrastructure.Mapping;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels;
 
 namespace WebStore.Services.InCookies
 {
@@ -105,7 +106,7 @@ namespace WebStore.Services.InCookies
 
         public CartViewModel GetViewModel()
         {
-            var products = _productData.GetProducts(new Domain.ProductFilter
+            var products = _productData.GetProducts(new ProductFilter
             {
                 Ids = Cart.Items.Select(item => item.ProductId).ToArray()
             });
