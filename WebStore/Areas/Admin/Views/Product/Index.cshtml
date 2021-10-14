@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Product>
+
+<div id="page-wrapper">
+    <div id="page-inner">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@Html.DisplayNameFor(m => m.Id)</th>
+                    <th>@Html.DisplayNameFor(m => m.Name)</th>
+                    <th>@Html.DisplayNameFor(m => m.Brand)</th>
+                    <th>@Html.DisplayNameFor(m => m.Section)</th>
+                    <th>@Html.DisplayNameFor(m => m.ImageUrl)</th>
+                    <th>@Html.DisplayNameFor(m => m.Price)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var product in Model)
+            {
+                    var brand = product.Brand?.Name;
+                <tr>
+                    <td>
+                        <a href="#">
+                            <i class="glyphicon glyphicon-edit">
+                            </i>  Ред.
+                        </a>
+                    </td>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@brand</td>
+                    <td>@product.Section.Name</td>
+                    <td>
+                        <img src="~/images/shop/@product.ImageUrl" alt="@product.Name" width="50"/>
+                    </td>
+                    <td>@product.Price</td>
+                    <td>
+                        <a href="#" class="text-danger">
+                            <i class="glyphicon glyphicon-remove">
+                            </i>  Удалить
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

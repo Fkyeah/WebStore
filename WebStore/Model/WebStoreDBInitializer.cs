@@ -25,13 +25,18 @@ namespace WebStore.Model
         }
         public async Task InitializeAsync()
         {
-            var pendingMigartions = await _db.Database.GetPendingMigrationsAsync();
-            var appliedMigrations = await _db.Database.GetAppliedMigrationsAsync();
-
-            if (pendingMigartions.Any())
+            if (_db.Database.ProviderName.EndsWith(".InMemory"))
+                await _db.Database.EnsureCreatedAsync();
+            else
             {
-                _logger.LogInformation("Запуск миграций..");
-                await _db.Database.MigrateAsync();
+                var pending_migrations = await _db.Database.GetPendingMigrationsAsync();
+                var applied_migrations = await _db.Database.GetAppliedMigrationsAsync();
+
+                if (pending_migrations.Any())
+                {
+                    _logger.LogInformation("Применение миграций: {0}", string.Join(",", pending_migrations));
+                    await _db.Database.MigrateAsync();
+                }
             }
 
             try
@@ -57,41 +62,50 @@ namespace WebStore.Model
         }
         private async Task InitializeProductAsync()
         {
-            if (_db.Brands.Any())
+            if (_db.Sections.Any())
             {
-                _logger.LogInformation("Инициализация не требуется и уже была произведена ранее");
+                _logger.LogInformation("Инициализация БД информацией о товарах не требуется");
                 return;
             }
-            _logger.LogInformation("Добавление брендов..");
-            await using (await _db.Database.BeginTransactionAsync())
+
+            var sections_pool = TestData.Sections.ToDictionary(section => section.Id);
+            var brands_pool = TestData.Brands.ToDictionary(brand => brand.Id);
+
+            foreach (var child_section in TestData.Sections.Where(s => s.ParentId is not null))
+                child_section.Parent = sections_pool[(int)child_section.ParentId!];
+
+            foreach (var product in TestData.Products)
             {
-                _db.Brands.AddRange(TestData.Brands);
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Brands] ON");
-                await _db.SaveChangesAsync();
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Brands] ON");
-                await _db.Database.CommitTransactionAsync();
+                product.Section = sections_pool[product.SectionId];
+                if (product.BrandId is { } brand_id)
+                    product.Brand = brands_pool[brand_id];
+
+                product.Id = 0;
+                product.SectionId = 0;
+                product.BrandId = null;
             }
-            _logger.LogInformation("Добавление брендов прошло успешно..");
-            _logger.LogInformation("Добавление секций..");
+
+            foreach (var section in TestData.Sections)
+            {
+                section.Id = 0;
+                section.ParentId = null;
+            }
+
+            foreach (var brand in TestData.Brands)
+                brand.Id = 0;
+
+
+            _logger.LogInformation("Запись товаров...");
             await using (await _db.Database.BeginTransactionAsync())
             {
                 _db.Sections.AddRange(TestData.Sections);
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] ON");
-                await _db.SaveChangesAsync();
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] ON");
-                await _db.Database.CommitTransactionAsync();
-            }
-            _logger.LogInformation("Добавление секций прошло успешно..");
-            _logger.LogInformation("Добавление продуктов..");
-            await using (await _db.Database.BeginTransactionAsync())
-            {
+                _db.Brands.AddRange(TestData.Brands);
                 _db.Products.AddRange(TestData.Products);
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Products] ON");
+
                 await _db.SaveChangesAsync();
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Products] ON");
                 await _db.Database.CommitTransactionAsync();
             }
-            _logger.LogInformation("Добавление продуктов прошло успешно..");
+            _logger.LogInformation("Запись товаров выполнена успешно");
         }
 
         private async Task InitializeIdentityAsync()
