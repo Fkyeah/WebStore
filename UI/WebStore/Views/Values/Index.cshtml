@@ -1,0 +1,28 @@
+﻿@model IEnumerable<string>
+
+@{ 
+    ViewBag.Title = "Тестовое Web API";
+}
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Value</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                var i = 1;
+            }
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@(i++)</td>
+                    <td>@item</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
