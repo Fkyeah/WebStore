@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using WebStore.DAL.Context;
-
+using WebStore.Domain.Entities;
+using WebStore.Interfaces.Services;
+using WebStore.Services.InCookies;
+using WebStore.Services.InMemory;
+using WebStore.Services.InSQL;
 
 namespace WebStore.WebAPI
 {
@@ -44,6 +49,15 @@ namespace WebStore.WebAPI
                 //    services.AddDbContext<WebStoreDB>(opt => opt.UseInMemoryDatabase("TikhonovWebStore.db"));
                 //    break;
             }
+
+            services.AddSingleton<IEmployersData, InMemoryEmployersData>();
+            services.AddScoped<IProductData, SqlProductData>();
+            services.AddScoped<ICartService, InCookiesCartService>();
+            services.AddScoped<IOrderService, SqlOrderService>();
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<WebStoreDB>()
+                .AddDefaultTokenProviders();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
