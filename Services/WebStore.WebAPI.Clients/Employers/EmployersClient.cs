@@ -29,7 +29,9 @@ namespace WebStore.WebAPI.Clients.Employers
         public int AddEmployer(Employer employer)
         {
             var response = Post(_controllerAddress, employer);
-            var addedEmployer = response.Content.ReadFromJsonAsync<Employer>();
+            var addedEmployer = response.Content.ReadFromJsonAsync<Employer>().Result;
+            if (addedEmployer is null)
+                return -1;
             return addedEmployer.Id;
         }
 
