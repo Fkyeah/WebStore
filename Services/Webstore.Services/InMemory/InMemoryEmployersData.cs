@@ -16,6 +16,7 @@ namespace WebStore.Services.InMemory
         public InMemoryEmployersData(ILogger<InMemoryEmployersData> logger)
         {
             _logger = logger;
+            _currentMaxId = TestData.EmployerList.Max(el => el.Id);
         }
         public int AddEmployer(Employer employer)
         {
