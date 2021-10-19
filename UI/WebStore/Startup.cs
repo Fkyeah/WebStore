@@ -18,6 +18,7 @@ using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.WebAPI.Clients.Employers;
+using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
 
@@ -58,12 +59,12 @@ namespace WebStore
             services.AddTransient<WebStoreDBInitializer>();
             
             services.AddScoped<ICartService, InCookiesCartService>();
-            services.AddScoped<IOrderService, SqlOrderService>();
-
+            
             services.AddHttpClient("WebStore.WebAPI", client => client.BaseAddress = new(Configuration["WebAPI"]))
                 .AddTypedClient<IEmployersData, EmployersClient>()
                 .AddTypedClient<IValueClient, ValuesClient>()
-                .AddTypedClient<IProductData, ProductsClient>();
+                .AddTypedClient<IProductData, ProductsClient>()
+                .AddTypedClient<IOrderService, OrdersClient>();
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreDB>()
