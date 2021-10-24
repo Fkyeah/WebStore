@@ -8,11 +8,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebStore.Domain.DTO.Identity;
 using WebStore.Domain.Entities;
+using WebStore.Interfaces.Services.Identity;
 using WebStore.WebAPI.Clients.Base;
 
 namespace WebStore.WebAPI.Clients.Identity
 {
-    public class UsersClient : BaseClient
+    public class UsersClient : BaseClient, IUsersClient
     {
         public UsersClient(HttpClient httpClient) : base(httpClient, WebStore.Interfaces.WebAPI.Users) 
         {

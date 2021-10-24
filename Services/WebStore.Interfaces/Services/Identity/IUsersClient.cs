@@ -4,8 +4,8 @@ using WebStore.Domain.Entities;
 namespace WebStore.Interfaces.Services.Identity
 {
     public interface IUsersClient :
-        IUserStore<User>,
         IUserPasswordStore<User>,
+        IUserRoleStore<User>,
         IUserEmailStore<User>,
         IUserPhoneNumberStore<User>,
         IUserLoginStore<User>,
