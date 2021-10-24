@@ -1,6 +1,6 @@
 ﻿namespace WebStore.Domain.DTO.Identity
 {
-    public class PasswordHash : UserDTO
+    public class PasswordHashDTO : UserDTO
     {
         public string Hash { get; set; }
     }
