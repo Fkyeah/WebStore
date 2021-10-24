@@ -17,6 +17,9 @@ using WebStore.Services.Data;
 using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
+using WebStore.WebAPI.Clients.Employers;
+using WebStore.WebAPI.Clients.Orders;
+using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
 
 namespace WebStore
@@ -53,18 +56,15 @@ namespace WebStore
                     break;
             }
 
-            //services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
-            //services.AddDbContext<WebStoreDB>(opt => opt.UseSqlite(Configuration.GetConnectionString("SqlServer")));
-            
             services.AddTransient<WebStoreDBInitializer>();
             
-            services.AddSingleton<IEmployersData, InMemoryEmployersData>();
-            
-            services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();
-            services.AddScoped<IOrderService, SqlOrderService>();
-
-            services.AddHttpClient<IValueClient, ValuesClient>(client => client.BaseAddress = new(Configuration["WebAPI"]));
+            
+            services.AddHttpClient("WebStore.WebAPI", client => client.BaseAddress = new(Configuration["WebAPI"]))
+                .AddTypedClient<IEmployersData, EmployersClient>()
+                .AddTypedClient<IValueClient, ValuesClient>()
+                .AddTypedClient<IProductData, ProductsClient>()
+                .AddTypedClient<IOrderService, OrdersClient>();
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreDB>()
