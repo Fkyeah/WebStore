@@ -11,7 +11,7 @@ namespace WebStore.WebAPI.Clients.Products
 {
     public class ProductsClient : BaseClient, IProductData
     {
-        public ProductsClient(HttpClient httpClient) : base(httpClient, "api/products")
+        public ProductsClient(HttpClient httpClient) : base(httpClient, WebStore.Interfaces.WebAPI.Products)
         {
         }
 

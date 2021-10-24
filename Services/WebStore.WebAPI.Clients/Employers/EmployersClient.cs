@@ -9,7 +9,7 @@ namespace WebStore.WebAPI.Clients.Employers
 {
     public class EmployersClient : BaseClient, IEmployersData
     {
-        public EmployersClient(HttpClient httpClient) : base(httpClient, "api/employers")
+        public EmployersClient(HttpClient httpClient) : base(httpClient, WebStore.Interfaces.WebAPI.Employers)
         {
 
         }
