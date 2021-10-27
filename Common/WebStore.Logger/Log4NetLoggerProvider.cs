@@ -11,13 +11,14 @@ namespace WebStore.Logger
 
         public Log4NetLoggerProvider(string configurationFile) => _configurationFile = configurationFile;
 
-        public ILogger CreateLogger(string category) =>
-            _loggers.GetOrAdd(category, category =>
+        public ILogger CreateLogger(string Category) =>
+            _loggers.GetOrAdd(Category, category =>
             {
                 var xml = new XmlDocument();
                 xml.Load(_configurationFile);
-                return new Log4NetLogger(category, xml["Log4Net"]);
+                return new Log4NetLogger(category, xml["log4net"]);
             });
 
         public void Dispose() => _loggers.Clear();
     }
+}
