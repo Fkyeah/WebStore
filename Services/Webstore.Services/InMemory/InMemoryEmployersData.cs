@@ -21,13 +21,20 @@ namespace WebStore.Services.InMemory
         public int AddEmployer(Employer employer)
         {
             if (employer is null)
+            {
+                _logger.LogError("Не передан пользователь для добавления");
                 throw new ArgumentNullException(nameof(employer));
+            }    
 
             if (TestData.EmployerList.Contains(employer))
+            {
+                _logger.LogInformation("Пользователь {0} {1} уже существует. Его ID = {2}", employer.Name, employer.LastName, employer.Id);
                 return employer.Id;
+            }
 
             employer.Id = ++_currentMaxId;
             TestData.EmployerList.Add(employer);
+            _logger.LogInformation("Пользователь {0} {1} успешно добавлен. Его ID = {2}", employer.Name, employer.LastName, employer.Id);
 
             return employer.Id;
         }
@@ -36,9 +43,13 @@ namespace WebStore.Services.InMemory
         {
             var employer = GetById(id);
             if (employer is null)
+            {
+                _logger.LogWarning("Пользователь с ID = {0} не найден", id);
                 return false;
+            }
 
             TestData.EmployerList.Remove(employer);
+            _logger.LogInformation("Пользователь {0} {1} успешно удален", employer.Name, employer.LastName);
             return true;
         }
 
@@ -60,19 +71,32 @@ namespace WebStore.Services.InMemory
         public void UpdateEmployer(Employer employer)
         {
             if (employer is null)
+            {
+                _logger.LogError("Не передан пользователь для изменения");
                 throw new ArgumentNullException(nameof(employer));
+            }
+                
 
             if (TestData.EmployerList.Contains(employer))
+            {
+                _logger.LogInformation("Никакие действия по изменениям пользователя не производились.");
                 return;
+            }
+                
 
             var temp_employer = GetById(employer.Id);
             if (temp_employer is null)
+            {
+                _logger.LogWarning("Пользователь с Id = {0} не найден", employer.Id);
                 return;
-
+            }
+                
             temp_employer.Name = employer.Name;
             temp_employer.LastName = employer.LastName;
             temp_employer.Patronymic = employer.Patronymic;
             temp_employer.Age = employer.Age;
+
+            _logger.LogInformation("Пользователь успешно обновлен");
 
         }
     }

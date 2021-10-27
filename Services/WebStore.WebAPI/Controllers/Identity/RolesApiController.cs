@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
@@ -13,9 +14,12 @@ namespace WebStore.WebAPI.Controllers.Identity
     public class RolesApiController : ControllerBase
     {
         private readonly RoleStore<Role> _roleStore;
-        public RolesApiController(WebStoreDB db)
+        private readonly ILogger<RolesApiController> _logger;
+
+        public RolesApiController(WebStoreDB db, ILogger<RolesApiController> logger)
         {
             _roleStore = new RoleStore<Role>(db);
+            _logger = logger;
         }
 
         [HttpGet("all")]
@@ -23,15 +27,38 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost]
         public async Task<bool> CreateAsync(Role role)
         {
+            _logger.LogInformation("Запрос на создание роли {0}", role.Name);
+
             var creation_result = await _roleStore.CreateAsync(role);
-            // Добавить логирование в случае Succeeded == false
+            if (!creation_result.Succeeded)
+            {
+                foreach(var error in creation_result.Errors)
+                {
+                    _logger.LogWarning("Ошибка при создании роли: {0}", error.Description);
+                }
+            }
+
+            _logger.LogInformation("Роль {0} успешно создана", role.Name);
+
             return creation_result.Succeeded;
         }
 
         [HttpPut]
         public async Task<bool> UpdateAsync(Role role)
         {
+            _logger.LogInformation("Запрос на изменение роли {0}", role.Name);
+
             var uprate_result = await _roleStore.UpdateAsync(role);
+            if (!uprate_result.Succeeded)
+            {
+                foreach (var error in uprate_result.Errors)
+                {
+                    _logger.LogWarning("Ошибка при изменении роли: {0}", error.Description);
+                }
+            }
+
+            _logger.LogInformation("Роль {0} успешно изменена", role.Name);
+
             return uprate_result.Succeeded;
         }
 
@@ -39,7 +66,19 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost("Delete")]
         public async Task<bool> DeleteAsync(Role role)
         {
+            _logger.LogInformation("Запрос на удаление роли {0}", role.Name);
+
             var delete_result = await _roleStore.DeleteAsync(role);
+            if (!delete_result.Succeeded)
+            {
+                foreach (var error in delete_result.Errors)
+                {
+                    _logger.LogWarning("Ошибка при удалении роли: {0}", error.Description);
+                }
+            }
+
+            _logger.LogInformation("Роль {0} успешно удалена", role.Name);
+
             return delete_result.Succeeded;
         }
 
@@ -52,8 +91,12 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost("SetRoleName/{name}")]
         public async Task<string> SetRoleNameAsync(Role role, string name)
         {
+            _logger.LogInformation("Запрос на изменение роли {0}. Новое значение - {1}", role.Name, name);
+
             await _roleStore.SetRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
+
+            _logger.LogInformation("Роль успешно обновлена");
             return role.Name;
         }
 
@@ -63,6 +106,8 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost("SetNormalizedRoleName/{name}")]
         public async Task<string> SetNormalizedRoleNameAsync(Role role, string name)
         {
+            _logger.LogInformation("Запрос на иземнение нормализованного имени роли {0}. Новое значение - {1}", role.Name, name);
+
             await _roleStore.SetNormalizedRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
             return role.NormalizedName;
