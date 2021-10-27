@@ -33,9 +33,14 @@ namespace WebStore.Controllers
         //[Route("~/Staff/info-{id}")]
         public IActionResult Details(int id)
         {
+            _logger.LogInformation("Получение информации о сотруднике с ID = {0}", id);
             var employer = _employersData.GetById(id);
             if (employer is null)
+            {
+                _logger.LogWarning("Пользователь с Id = {0} не найден", id);
                 return NotFound();
+            }
+                
             return View(employer);
         }
 
@@ -45,6 +50,7 @@ namespace WebStore.Controllers
 
         public IActionResult Create()
         {
+            _logger.LogInformation("Добавление нового сотрудника");
             return View("Edit", new EmployerViewModel());
         }
 
@@ -53,12 +59,20 @@ namespace WebStore.Controllers
         #region Delete
         public IActionResult Delete(int id)
         {
+            _logger.LogInformation("Попытка удаления пользователя с ID = {0}", id);
             if (id < 0)
+            {
+                _logger.LogWarning("В запросе передан некорректный ID = {0}", id);
                 return BadRequest();
+            }
+                
 
             var employer = _employersData.GetById(id);
             if (employer is null)
+            {
+                _logger.LogWarning("Пользователь с ID = {0} не найден", id);
                 return NotFound();
+            }
 
             return View(new EmployerViewModel
             {
@@ -74,6 +88,7 @@ namespace WebStore.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             _employersData.DeleteEmployer(id);
+            _logger.LogInformation("Пользователь с ID = {0} успешно удален", id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -83,12 +98,21 @@ namespace WebStore.Controllers
 
         public IActionResult Edit(int? id)
         {
+            _logger.LogInformation("Попытка редактирования пользователя с ID = {0}", id);
             if (id is null)
+            {
+                _logger.LogWarning("Не передан ID пользователя для редактирования");
                 return View(new EmployerViewModel());
+            }
+                
 
             var employer = _employersData.GetById((int)id);
             if (employer is null)
+            {
+                _logger.LogWarning("Пользователь с ID = {0} не найден");
                 return NotFound();
+            }
+                
 
             var model = new EmployerViewModel
             {
@@ -114,15 +138,25 @@ namespace WebStore.Controllers
                     Patronymic = model.Patronymic,
                     Age = model.Age,
                 };
-                if (employer.Id == 0)
-                    _employersData.AddEmployer(employer);
-                else
-                    _employersData.UpdateEmployer(employer);
 
+                if (employer.Id == 0)
+                {
+                    _logger.LogInformation("Создан новый пользователь {0} {1}", employer.Name, employer.LastName);
+                    _employersData.AddEmployer(employer);
+                } 
+                else
+                {
+                    _employersData.UpdateEmployer(employer);
+                    _logger.LogInformation("Редактирование пользователя с ID = {0} успешно выполнено", employer.Id);
+                }
+                    
                 return RedirectToAction(nameof(Index));
             }
             else
+            {
+                _logger.LogWarning("Переданы некорректные данные");
                 return View();
+            }
         }
 
         #endregion
