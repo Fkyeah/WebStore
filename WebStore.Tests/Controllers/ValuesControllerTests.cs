@@ -15,18 +15,18 @@ namespace WebStore.Tests.Controllers
     {
         public ValuesControllerTests()
         {
-            valuesServiceMock = new Mock<IValueClient>();
-            controller = new ValuesController(valuesServiceMock.Object);
+            _valuesServiceMock = new Mock<IValueClient>();
+            _controller = new ValuesController(_valuesServiceMock.Object);
         }
 
-        ValuesController controller;
+        private ValuesController _controller;
 
-        Mock<IValueClient> valuesServiceMock;
+        private Mock<IValueClient> _valuesServiceMock;
 
         [TestMethod]
         public void Index_Return_View()
         {
-            var actualResult = controller.Index();
+            var actualResult = _controller.Index();
 
             Assert.IsType<ViewResult>(actualResult);
         }
@@ -39,11 +39,11 @@ namespace WebStore.Tests.Controllers
                 .Select(i => $"Value - {i}")
                 .ToArray();
 
-            valuesServiceMock
+            _valuesServiceMock
             .Setup(service => service.GetAll())
                 .Returns(expectedData);
 
-            var actualResult = controller.Index();
+            var actualResult = _controller.Index();
             var actualViewResult = Assert.IsType<ViewResult>(actualResult);
             var actualModelData = Assert.IsAssignableFrom<string[]>(actualViewResult.Model);
 
@@ -52,8 +52,8 @@ namespace WebStore.Tests.Controllers
                 Assert.Equal(expectedData[i], actualModelData[i]);
             }
 
-            valuesServiceMock.Verify(service => service.GetAll());
-            valuesServiceMock.VerifyNoOtherCalls();
+            _valuesServiceMock.Verify(service => service.GetAll());
+            _valuesServiceMock.VerifyNoOtherCalls();
         }
     }
 }
