@@ -9,6 +9,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.DTO.Identity;
 using Microsoft.AspNetCore.Identity;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace WebStore.WebAPI.Controllers.Identity
 {
@@ -17,9 +18,12 @@ namespace WebStore.WebAPI.Controllers.Identity
     public class UsersApiController : ControllerBase
     {
         private readonly UserStore<User, Role, WebStoreDB> _userStore;
-        public UsersApiController(WebStoreDB db)
+        private readonly ILogger<UsersApiController> _logger;
+
+        public UsersApiController(WebStoreDB db, ILogger<UsersApiController> logger)
         {
             _userStore = new UserStore<User, Role, WebStoreDB>(db);
+            _logger = logger;
         }
 
         [HttpGet("all")]
@@ -48,30 +52,64 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost("NormalUserName/{name}")]
         public async Task<string> SetNormalizedUserNameAsync([FromBody] User user, string name)
         {
+            _logger.LogInformation("Запрос на изменение нормализованного имени пользователя {0}. Новое значение - {1}", user.UserName, name);
+
             await _userStore.SetNormalizedUserNameAsync(user, name);
             await _userStore.UpdateAsync(user);
+
+            _logger.LogInformation("Имя успешно изменено");
             return user.NormalizedUserName;
         }
 
         [HttpPost("User")] // POST -> api/users/user
         public async Task<bool> CreateAsync([FromBody] User user)
         {
+            _logger.LogInformation("Запрос на создание пользователя {0}", user.UserName);
+
             var creation_result = await _userStore.CreateAsync(user);
-            // добавление ошибок создания нового пользователя в журнал
+            if(!creation_result.Succeeded)
+            {
+                foreach(var error in creation_result.Errors)
+                {
+                    _logger.LogWarning("Ошибка при создании пользователя: {0}", error.Description);
+                }
+            }
+            
+            _logger.LogInformation("Пользователь {0} успешно создан", user.UserName);
             return creation_result.Succeeded;
         }
 
         [HttpPut("User")] // PUT -> api/users/user
         public async Task<bool> UpdateAsync([FromBody] User user)
         {
+            _logger.LogInformation("Запрос на изменение пользователя {0}", user.UserName);
             var update_result = await _userStore.UpdateAsync(user);
+            if (!update_result.Succeeded)
+            {
+                foreach (var error in update_result.Errors)
+                {
+                    _logger.LogWarning("Ошибка при изменении пользователя: {0}", error.Description);
+                }
+            }
+
+            _logger.LogInformation("Пользователь {0} успешно изменен", user.UserName);
             return update_result.Succeeded;
         }
 
         [HttpPost("User/Delete")] // POST api/users/user/delete
         public async Task<bool> DeleteAsync([FromBody] User user)
         {
+            _logger.LogInformation("Запрос на удаление пользователя {0}", user.UserName);
             var delete_result = await _userStore.DeleteAsync(user);
+            if (!delete_result.Succeeded)
+            {
+                foreach (var error in delete_result.Errors)
+                {
+                    _logger.LogWarning("Ошибка при удалении пользователя: {0}", error.Description);
+                }
+            }
+
+            _logger.LogInformation("Пользователь {0} успешно удален", user.UserName);
             return delete_result.Succeeded;
         }
 
@@ -84,6 +122,8 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost("Role/{role}")] // POST -> api/users/role/admin - добавляет роль "admin" пользователю, который передаётся в теле запроса
         public async Task AddToRoleAsync([FromBody] User user, string role/*, [FromServices] WebStoreDB db*/)
         {
+            _logger.LogInformation("Запрос на добавление пользователю {0} роли {1}", user.UserName, role);
+
             await _userStore.AddToRoleAsync(user, role);
             await _userStore.Context.SaveChangesAsync();
             //await db.SaveChangesAsync();
@@ -93,6 +133,8 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost("Role/Delete/{role}")]
         public async Task RemoveFromRoleAsync([FromBody] User user, string role/*, [FromServices] WebStoreDB db*/)
         {
+            _logger.LogInformation("Запрос на удаление пользователю {0} роли {1}", user.UserName, role);
+
             await _userStore.RemoveFromRoleAsync(user, role);
             await _userStore.Context.SaveChangesAsync();
             //await db.SaveChangesAsync();

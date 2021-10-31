@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +17,24 @@ namespace WebStore.Services.InSQL
     {
         private readonly WebStoreDB _db;
         private readonly UserManager<User> _userManager;
+        private readonly ILogger<SqlOrderService> _logger;
 
-        public SqlOrderService(WebStoreDB db, UserManager<User> userManager)
+        public SqlOrderService(WebStoreDB db, UserManager<User> userManager, ILogger<SqlOrderService> logger)
         {
             _db = db;
             _userManager = userManager;
+            _logger = logger;
         }
 
         public async Task<Order> CreateOrder(string userName, CartViewModel cartModel, OrderViewModel orderModel)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user is null)
+            {
+                _logger.LogError("Пользователь {0} не найден!", userName);
                 throw new ArgumentNullException($"Пользователь {userName} не найден!");
+            }
+                
 
             await using var transaction = await _db.Database.BeginTransactionAsync();
 
@@ -59,6 +66,7 @@ namespace WebStore.Services.InSQL
             await _db.SaveChangesAsync();
             await transaction.CommitAsync();
 
+            _logger.LogInformation("Заказ с ID = {0} успешно добавлен в БД", order.Id);
             return order;
         }
 
