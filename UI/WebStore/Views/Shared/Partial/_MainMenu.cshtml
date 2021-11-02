@@ -4,7 +4,7 @@
         <li class="dropdown">
             <a ws-active-route asp-controller="Shop" asp-action="Index">Shop<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
-                <li><a asp-controller="Shop" asp-action="Index">Products</a></li>
+                <li><a ws-active-route ws-ignore-action asp-controller="Shop" asp-action="Index">Products</a></li>
                 <li><a asp-controller="CheckOut" asp-action="Index">Checkout</a></li>
                 <li><a asp-controller="Cart" asp-action="Index">Cart</a></li>
                 <li><a asp-controller="Login" asp-action="Index">Login</a></li>
@@ -13,7 +13,7 @@
         <li class="dropdown">
             <a ws-active-route asp-controller="Blog" asp-action="Index">Blog<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
-                <li><a asp-controller="Blog" asp-action="Index">Blog List</a></li>
+                <li><a ws-active-route asp-controller="Blog" asp-action="Index">Blog List</a></li>
                 <li><a asp-controller="BlogSingle" asp-action="Index">Blog Single</a></li>
             </ul>
         </li>

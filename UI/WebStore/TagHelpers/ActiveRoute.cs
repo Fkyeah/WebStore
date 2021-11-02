@@ -7,10 +7,11 @@ using System.Linq;
 
 namespace WebStore.TagHelpers
 {
-    [HtmlTargetElement(Attributes = AttributeName)]
+    [HtmlTargetElement(Attributes = ActiveRouteAtrribute)]
     public class ActiveRoute : TagHelper
     {
-        private const string AttributeName = "ws-active-route";
+        private const string ActiveRouteAtrribute= "ws-active-route";
+        private const string IgnoreActionAttribute = "ws-ignore-action";
 
         [HtmlAttributeName("asp-controller")]
         public string Controller { get; set; }
@@ -26,19 +27,21 @@ namespace WebStore.TagHelpers
         public ViewContext ViewContext { get; set; }
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (IsActive())
+            var isIgnoreAction = output.Attributes.RemoveAll(IgnoreActionAttribute);
+
+            if (IsActive(isIgnoreAction))
                 MakeActive(output);
 
-            output.Attributes.RemoveAll(AttributeName);
+            output.Attributes.RemoveAll(ActiveRouteAtrribute);
         }
 
-        private bool IsActive()
+        private bool IsActive(bool isIgnoreAction)
         {
             var routeValues = ViewContext.RouteData.Values;
             var routeController = routeValues["controller"]?.ToString();
             var routeAction = routeValues["action"]?.ToString();
 
-            if (!string.IsNullOrEmpty(Action) && !string.Equals(Action, routeAction))
+            if (!isIgnoreAction && !string.IsNullOrEmpty(Action) && !string.Equals(Action, routeAction))
                 return false;
 
             if (!string.IsNullOrEmpty(Controller) && !string.Equals(Controller, routeController))
