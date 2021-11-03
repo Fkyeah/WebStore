@@ -1,8 +1,8 @@
 ﻿<div class="left-sidebar">
     <h2>Category</h2>
 
-    <vc:sections />
-    <vc:brands />
+    <vc:sections section-row-id="@Context.Request.Query["sectionId"]" />
+    <vc:brands brand-row-id="@Context.Request.Query["brandId"]"/>
     <partial name="_PriceRange.cshtml" />
     <partial name="_Shipping.cshtml" />
 </div>
