@@ -12,6 +12,7 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 using WebStore.Logger;
+using WebStore.Services;
 using WebStore.Services.Data;
 using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
@@ -57,7 +58,9 @@ namespace WebStore.WebAPI
 
             services.AddSingleton<IEmployersData, InMemoryEmployersData>();
             services.AddScoped<IProductData, SqlProductData>();
-            services.AddScoped<ICartService, InCookiesCartService>();
+            //services.AddScoped<ICartService, InCookiesCartService>();
+            services.AddScoped<ICartStore, InCookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
 
             services.AddIdentity<User, Role>()
