@@ -1,13 +1,20 @@
-﻿@model IEnumerable<BrandViewModel>
+﻿@model SelectableBrandsViewModel
 
 <div class="brands_products">
     <!--brands_products-->
     <h2>Brands</h2>
     <div class="brands-name">
         <ul class="nav nav-pills nav-stacked">
-            @foreach (var el in Model)
+            @foreach (var el in Model.Brands)
             {
-                <li><a asp-controller="Shop" asp-action="Index" asp-route-BrandId="@el.Id"> <span class="pull-right">(@el.Order)</span>@el.Name</a></li>
+                <li @(el.Id == Model.BrandId ? "class= active" : null)>
+                    <a asp-controller="Shop" asp-action="Index" asp-route-BrandId="@el.Id"> 
+                        <span class="pull-right">
+                            (@el.Order)
+                        </span>
+                        @el.Name
+                    </a>
+                </li>
             }
         </ul>
     </div>

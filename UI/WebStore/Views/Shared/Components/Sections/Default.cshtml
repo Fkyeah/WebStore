@@ -1,8 +1,8 @@
-﻿@model IEnumerable<SectionViewModel>
+﻿@model SelectableSectionsViewModel
 
 <div class="panel-group category-products" id="accordian">
     <!--category-productsr-->
-    @foreach (var parent in Model)
+    @foreach (var parent in Model.Sections)
     {
         if (parent.Childs.Count > 0)
         {
@@ -15,12 +15,16 @@
                         </a>
                     </h4>
                 </div>
-                <div id="@parent.GetHashCode()" class="panel-collapse collapse">
+                <div id="@parent.GetHashCode()" class="panel-collapse collapse @(parent.Id == Model.ParentSectionId ? "in" : null)">
                     <div class="panel-body">
                         <ul>
                             @foreach (var child in parent.Childs)
                             {
-                                <li><a asp-controller="Shop" asp-action="Index" asp-route-SectionId="@child.Id">@child.Name</a></li>
+                                <li @(child.Id == Model.SectionId ? "class= active" : null)>
+                                    <a asp-controller="Shop" asp-action="Index" asp-route-SectionId="@child.Id">
+                                        @child.Name
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </div>

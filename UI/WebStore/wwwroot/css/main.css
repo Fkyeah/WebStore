@@ -752,7 +752,10 @@ h2.title:before {
 .panel-body ul {
     padding-left: 20px;
 }
-
+    
+    .panel-body ul li.active {
+        text-decoration : underline;
+    }
 
     .panel-body ul li a {
         color: #696763;
@@ -766,7 +769,10 @@ h2.title:before {
     padding-bottom: 20px;
     padding-top: 15px;
 }
-
+    
+    .brands-name .nav-stacked li.active {
+        text-decoration : underline;
+    }
 
     .brands-name .nav-stacked li a {
         background-color: #FFFFFF;
