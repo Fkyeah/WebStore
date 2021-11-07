@@ -79,18 +79,18 @@ namespace WebStore.Controllers
         {
             _cartService.Add(id);
             _logger.LogInformation("Товар с ID = {0} добавлен в корзину", id);
-            return Json(new { id }, $"Товар с ID = {id} добавлен в корзину");
+            return Json(new { id, message = $"Товар с ID = {id} добавлен в корзину" });
         }
         public IActionResult DecrementAPI(int id)
         {
             _cartService.Decrement(id);
-            return Json(new { id }, $"Товар с ID = {id} уменьшен на единицу");
+            return Json(new { id, message = $"Товар с ID = {id} уменьшен на единицу" });
         }
         public IActionResult RemoveAPI(int id)
         {
             _cartService.Remove(id);
             _logger.LogInformation("Товар с ID = {0} убран из корзины", id);
-            return Json(new { id }, $"Товар с ID = {id} убран из корзины");
+            return Json(new { id, message = $"Товар с ID = {id} убран из корзины" });
         }
 
         #endregion
