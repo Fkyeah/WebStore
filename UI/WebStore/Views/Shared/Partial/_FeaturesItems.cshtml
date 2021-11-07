@@ -12,7 +12,9 @@
                         <img src="~/images/shop/@product.ImageUrl" alt="@product.Name" />
                         <h2>@product.Price.ToString("C")</h2>
                         <p>@product.Name</p>
-                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-default add-to-cart" data-id="@product.Id">
+                            <i class="fa fa-shopping-cart"></i>Add to cart
+                        </a>
                     </div>
                     <div class="product-overlay">
                         <div class="overlay-content">
@@ -20,7 +22,9 @@
                             <p>
                                 <a asp-controller="ProductDetails" asp-action="Index" asp-route-id="@product.Id">@product.Name</a>
                             </p>
-                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-default add-to-cart" data-id="@product.Id">
+                                <i class="fa fa-shopping-cart"></i>Add to cart
+                            </a>
                         </div>
                     </div>
                 </div>
