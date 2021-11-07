@@ -2,6 +2,18 @@
 <script src="~/js/bootstrap.min.js"></script>
 <script src="~/js/jquery.scrollUp.min.js"></script>
 <script src="~/js/jquery.prettyPhoto.js"></script>
+<script src="~/js/cart-logic.js" asp-append-version="true"></script>
+
+<script>
+    $(function() {
+        Cart.init({
+            getCartViewLink: "@Url.Action("GetCartView", "Cart")",
+            addToCartLink: "@Url.Action("AddAPI", "Cart")",
+            decrementLink: "@Url.Action("DecrementAPI", "Cart")",
+            removeFromCartLink: "@Url.Action("RemoveAPI", "Cart")"
+        });
+    })
+</script>
 
 <environment include="Development">
     <script src="~/js/price-range.js"></script>
