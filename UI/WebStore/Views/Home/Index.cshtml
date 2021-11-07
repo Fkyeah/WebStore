@@ -3,6 +3,7 @@
 @{ 
     var products = ProductData
         .GetProducts()
+        .Products
         .Take(6)
         .Select(el => new ProductViewModel
         {

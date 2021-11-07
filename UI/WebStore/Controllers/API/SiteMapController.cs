@@ -46,6 +46,7 @@ namespace WebStore.Controllers.API
             nodes.AddRange(
                 _productData
                     .GetProducts()
+                    .Products
                     .Select(s => new SitemapNode(
                                 Url.Action("Index", "ProductDetails", new { s.Id }))));
 
