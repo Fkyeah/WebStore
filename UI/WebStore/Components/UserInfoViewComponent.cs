@@ -4,6 +4,6 @@ namespace WebStore.Components
 {
     public class UserInfoViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke() => User.Identity.IsAuthenticated ? View("UserInfo") : View();
+        public IViewComponentResult Invoke() => User.Identity.IsAuthenticated ? View("UserInfo") : View("Default");
     }
 }

@@ -37,7 +37,7 @@ namespace WebStore.Services.InSQL
                 .FirstOrDefault(p => p.Id == id);
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter filter = null)
+        public ProductsPage GetProducts(ProductFilter filter = null)
         {
             IQueryable<Product> products = _db.Products
                 .Include(b => b.Brand)
@@ -53,7 +53,16 @@ namespace WebStore.Services.InSQL
                     products = products.Where(el => el.BrandId == filter.BrandId);
 
             }
-            return products;
+
+            var totalCount = products.Count();
+
+            if (filter.PageSize > 0 && filter.PageNumber > 0)
+                products = products
+                   .OrderBy(v => v.Order)
+                   .Skip((int)((filter.PageNumber - 1) * filter.PageSize))
+                   .Take((int)filter.PageSize);
+
+            return new ProductsPage(products.AsEnumerable(), totalCount);
         }
 
         public Section GetSectionById(int id)
