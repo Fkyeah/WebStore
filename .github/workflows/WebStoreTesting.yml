@@ -17,5 +17,15 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Webstore Test
+      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal
+    - name: Create Test Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+      id: create_coverage_badge
+      with:
+        label: "WebStore Coverage"
+        color: "brightgreen"
+        path: "TestResults/coverage.opencover.xml"
+        gist-filename: "code-coverage.json"
+        gist-id: "c2e864100c1f49050cb9bd68dbfa40e5"
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
